@@ -1,15 +1,13 @@
 import { exec } from 'node:child_process';
 import { homedir } from 'node:os'
 import readline from 'node:readline';
-import { showCurDir } from './cli.js';
+import { add, cat, ls, showCurDir } from './fs.js';
 import { up } from './fs.js';
+import { os_cli } from './os.js';
 
-const args = process.argv
+const args = process.argv;
 const userName = args.find((item) => item.startsWith('--username')).split('-').pop();
-
-// const showCurDir = () => {
-//   console.log(`You are currently in ${currentPath}`)
-// }
+process.chdir(homedir());
 console.log(`Welcome to FileManager, ${userName}!`);
 showCurDir();
 
@@ -20,28 +18,31 @@ const cli = readline.createInterface({
 
 cli.prompt();
 
-cli.on('line', (line) => {
-  const command = line.split(' ').at(0);
+cli.on('line', async (line) => {
+  let lineArr = line.split(' ');
+  const command = lineArr.shift();
+  const payload = lineArr.join(' ');
+  console.log('Command: '+ command, 'Payload: ' + payload)
   switch (command) {
     case 'up':
       up()
       break;
-    case 'pwd': 
-      (()=>{
-        const cp = exec('pwd', (error, stdout, stderr) => {
-          if (error) {
-            console.error(`exec error: ${error}`);
-            return;
-          }
-          console.log(`stdout: ${stdout}`);
-          console.log(`stderr: ${stderr}`);
-        });
-      })()
-  
+    case 'ls': 
+      ls();
+      break;
+    case 'add': 
+      add(payload);
+      break;
+    case 'cat': 
+      await cat(payload);
+      break;
+    case 'os': 
+      os_cli(payload);
+      break  
     default:
       console.log('Invalid input');
-      cli.prompt();
       break;
   }
   showCurDir();
+  cli.prompt();
 })
