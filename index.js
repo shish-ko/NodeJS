@@ -1,8 +1,7 @@
-import { exec } from 'node:child_process';
 import { homedir } from 'node:os'
 import readline from 'node:readline';
-import { add, cat, ls, showCurDir } from './fs.js';
-import { up } from './fs.js';
+import { add, cat, rm_cli, rn, showCurDir } from './fs.js';
+import { cd, ls, up } from './nav.js';
 import { os_cli } from './os.js';
 
 const args = process.argv;
@@ -27,8 +26,11 @@ cli.on('line', async (line) => {
     case 'up':
       up()
       break;
+    case 'cd':
+        cd(payload);
+        break;
     case 'ls': 
-      ls();
+      await ls();
       break;
     case 'add': 
       add(payload);
@@ -36,6 +38,12 @@ cli.on('line', async (line) => {
     case 'cat': 
       await cat(payload);
       break;
+    case 'rn': 
+      rn(payload);
+      break 
+    case 'rm': 
+      await rm_cli(payload);
+      break   
     case 'os': 
       os_cli(payload);
       break  
