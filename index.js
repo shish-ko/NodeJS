@@ -1,8 +1,9 @@
 import { homedir } from 'node:os'
 import readline from 'node:readline';
-import { add, cat, rm_cli, rn, showCurDir } from './fs.js';
+import { add, cat, cp, rm_cli, rn, showCurDir, mv } from './fs.js';
 import { cd, ls, up } from './nav.js';
 import { os_cli } from './os.js';
+import { hash } from './hash.js';
 
 const args = process.argv;
 const userName = args.find((item) => item.startsWith('--username')).split('-').pop();
@@ -41,12 +42,21 @@ cli.on('line', async (line) => {
     case 'rn': 
       rn(payload);
       break 
+    case 'cp': 
+      await cp(payload);
+      break 
+    case 'mv': 
+      await mv(payload);
+      break 
     case 'rm': 
       await rm_cli(payload);
       break   
     case 'os': 
       os_cli(payload);
       break  
+    case 'hash': 
+      await hash(payload);
+      break 
     default:
       console.log('Invalid input');
       break;
