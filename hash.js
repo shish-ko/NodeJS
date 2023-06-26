@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto'
 import { readFile } from 'node:fs/promises';
-import { getSplittedPaths } from './fs.js';
+import { getSplittedPaths } from './utils.js';
 
 export const hash = async (path) => {
   try {

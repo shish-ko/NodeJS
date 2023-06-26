@@ -1,5 +1,5 @@
 import path from 'path';
-import { getDirection } from './fs.js';
+import { getSplittedPaths } from './utils.js';
 import { readdir } from 'fs/promises';
 
 export const up = () => {
@@ -15,9 +15,9 @@ export const up = () => {
 
 export const cd = (path) => {
   try{
-    process.chdir(getDirection(path));
+    process.chdir(getSplittedPaths(path));
   } catch {
-    console.log('Operation failed')
+    console.log('Invalid input')
   }  
 }
 

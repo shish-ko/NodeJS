@@ -1,30 +1,16 @@
-import { mkdir, readFile, readdir, rename, rm, stat, writeFile } from "fs/promises"
+import { mkdir, rename, rm, writeFile } from "fs/promises"
 import path from 'path'
 import { createReadStream, createWriteStream } from "fs"
-import { pipeline } from "stream/promises"
-
-const showCurDir = () => {
-  console.log(`You are currently in ${process.cwd()}`)
-}
-
-const getDirection = (dir) => {
-  return path.isAbsolute(dir) ? dir : path.join(process.cwd(), dir);
-}
-
-const getSplittedPaths = (payload, items=1) => {
-  const arr = payload.split(' ');
-  if (arr.length === items) {
-    const result = arr.map((item) => getDirection(item));
-    return items > 1 ? result : result[0];
-  };  
-  const res = payload.split('"').reduce((acc, item) => {
-    if(item) acc.push(item.trim());
-    return acc}, [])
-  return res.map((item) => getDirection(item))
-}
+import { pipeline } from "stream/promises";
+import { getSplittedPaths } from "./utils.js";
 
 const add = async (payload) => {
-  await writeFile(getSplittedPaths(payload), '');
+  try{
+    await writeFile(getSplittedPaths(payload), '');
+  }catch {
+    console.log('Operation failed');
+  }
+
 }
 
 const rn = async (payload) => {
@@ -32,7 +18,7 @@ const rn = async (payload) => {
     const [fileToRename, newName] = getSplittedPaths(payload, 2);
     await rename(fileToRename, path.join(path.dirname(fileToRename), path.basename(newName)));
   } catch {
-    console.log('Invalid input')
+    console.log('Operation failed')
   }  
 }
 
@@ -47,9 +33,10 @@ const rm_cli = async (file) => {
 const cp = async (payload) => {
   try{
     const [oldDir, newDir] = getSplittedPaths(payload, 2);
-    await mkdir(path.dirname(newDir), {recursive: true})
-    const newFile = await writeFile(newDir, '');
-    await pipeline(createReadStream(oldDir), createWriteStream(newDir));
+    const qwe = await mkdir(newDir, {recursive: true});
+    console.log(qwe)
+    await writeFile(path.join(newDir, path.basename(oldDir)), '');
+    await pipeline(createReadStream(oldDir), createWriteStream(path.join(newDir, path.basename(oldDir))));
   } catch {
     console.log('Operation failed')
   }
@@ -64,18 +51,13 @@ const mv = async (payload) => {
 
 
 const cat = async (payload) => {
-  // try {
-
-    const readStream = createReadStream(getDirection(payload));
-
-    const qwe = readStream.pipe(process.stdout);
-
-    // await Promise (qwe. )
-    // console.log('finish')
-    return
-  // } catch {
-  //   console.log('Invalid input')
-  // }
+  try {
+    console.log(getSplittedPaths(payload))
+    const readStream = createReadStream(getSplittedPaths(payload));
+    readStream.pipe(process.stdout);
+  } catch {
+    console.log('Operation failed')
+  }
 }
 
-export {cat, rm_cli, rn, add, getDirection, showCurDir, cp, mv, getSplittedPaths}
+export {cat, rm_cli, rn, add, cp, mv }
