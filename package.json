@@ -1,0 +1,32 @@
+{
+  "name": "nodejs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start:dev": "nodemon --experimental-specifier-resolution=node ./src/index.ts",
+    "start:prod": "webpack && node ./dist/bundle.cjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shish-ko/NodeJS.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shish-ko/NodeJS/issues"
+  },
+  "homepage": "https://github.com/shish-ko/NodeJS#readme",
+  "devDependencies": {
+    "@types/node": "^20.3.2",
+    "@types/uuid": "^9.0.2",
+    "dotenv": "^16.3.1",
+    "nodemon": "^2.0.22",
+    "ts-loader": "^9.4.3",
+    "uuid": "^9.0.0",
+    "webpack": "^5.88.0",
+    "webpack-cli": "^5.1.4"
+  }
+}
