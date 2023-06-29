@@ -22,7 +22,8 @@ export class Storage extends Array<IUser>{
   }  
   updateUser(userId: string, payload?: Partial<IUser>) {
     const user = this.getUser(userId) as IUser;  // TODO
-    if(!Storage.checkPayload(Object.assign({}, user, payload), 4)) return
+    if(!Storage.checkPayload(Object.assign({}, user, payload), 4)) {
+      return}
     return Object.assign(user, payload);
   }
   deleteUser(userId: string) {
