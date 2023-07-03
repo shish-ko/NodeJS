@@ -1,0 +1,39 @@
+{
+  "name": "nodejs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "jest",
+    "start:dev": "nodemon --experimental-specifier-resolution=node ./src/index.ts",
+    "start:prod": "webpack && node ./dist/bundle.cjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shish-ko/NodeJS.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shish-ko/NodeJS/issues"
+  },
+  "homepage": "https://github.com/shish-ko/NodeJS#readme",
+  "devDependencies": {
+    "@babel/preset-env": "^7.22.5",
+    "@babel/preset-typescript": "^7.22.5",
+    "@jest/globals": "^29.5.0",
+    "@types/node": "^20.3.2",
+    "@types/node-fetch": "^2.6.4",
+    "@types/uuid": "^9.0.2",
+    "dotenv": "^16.3.1",
+    "jest": "^29.5.0",
+    "node-fetch": "^2.6.11",
+    "nodemon": "^2.0.22",
+    "supertest": "^6.3.3",
+    "ts-loader": "^9.4.3",
+    "uuid": "^9.0.0",
+    "webpack": "^5.88.0",
+    "webpack-cli": "^5.1.4"
+  }
+}
