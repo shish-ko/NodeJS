@@ -63,8 +63,7 @@ const server = http.createServer((req, res) => {
           res.end();
           break;
         case 'PUT':
-          const user = db.updateUser(userId as string, body)
-          console.log(user)
+          const user = db.updateUser(userId as string, body);
           if (!user) {
             res.statusCode = 400;
             return res.end('Check provided info')
